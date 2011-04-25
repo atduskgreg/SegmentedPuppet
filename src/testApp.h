@@ -41,6 +41,7 @@ class testApp : public ofBaseApp{
     ofxOBJModel torsoModel;
     ofxOBJModel lowerLeg;
     ofxOBJModel upperLeg;
+    ofxOBJModel headModel;
 
   
     ofxVec3f leftForearmBegin;
@@ -70,6 +71,9 @@ class testApp : public ofBaseApp{
   
     ofxVec3f rightUpperLegBegin;
     ofxVec3f rightUpperLegEnd;
+
+    ofxVec3f headBegin;
+    ofxVec3f headEnd;
   
     GABPuppetLimb leftForearm;
     GABPuppetLimb rightForearm;
@@ -82,6 +86,8 @@ class testApp : public ofBaseApp{
 
     GABPuppetLimb leftUpperLeg;
     GABPuppetLimb rightUpperLeg;
+
+    GABPuppetLimb head;
 
 
 		

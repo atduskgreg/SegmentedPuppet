@@ -26,7 +26,7 @@ void testApp::setup() {
   rightUpperarm = GABPuppetLimb(leftUpperArm);
   leftUpperarm = GABPuppetLimb(leftUpperArm);
   
-  torsoModel.load("torso.obj");
+  torsoModel.load("torso2.obj");
   torso = GABPuppetLimb(torsoModel);
   
   lowerLeg.load("lower_leg2.obj");
@@ -36,6 +36,10 @@ void testApp::setup() {
   upperLeg.load("upper_leg.obj");
   leftUpperLeg = GABPuppetLimb(upperLeg);
   rightUpperLeg = GABPuppetLimb(upperLeg);
+  
+  headModel.load("head2.obj");
+  head = GABPuppetLimb(headModel);
+
 	
 }
 
@@ -135,15 +139,19 @@ void testApp::draw(){
         
         rightUpperLegBegin = recordUser.getTrackedUsers()[0]->right_upper_leg.begin;
         rightUpperLegEnd = recordUser.getTrackedUsers()[0]->right_upper_leg.end;
+
         
+        headBegin = recordUser.getTrackedUsers()[0]->neck.begin;
+        headEnd = recordUser.getTrackedUsers()[0]->neck.end;
         
 
-        ofxVec3f shoudlerLine = recordUser.getTrackedUsers()[0]->right_shoulder.begin - recordUser.getTrackedUsers()[0]->left_shoulder.begin;
-        torsoEnd = shoudlerLine / 2;
-        
+        ofxVec3f shoudlerLine = recordUser.getTrackedUsers()[0]->right_shoulder.begin + recordUser.getTrackedUsers()[0]->left_shoulder.begin;
+        torsoBegin = shoudlerLine / 2;
+        //torsoBegin = recordUser.getTrackedUsers()[0]->right_shoulder.begin;
         
         // to center of this line
-        torsoBegin = (recordUser.getTrackedUsers()[0]->hip.end - recordUser.getTrackedUsers()[0]->hip.begin) / 2;
+        //torsoBegin = (recordUser.getTrackedUsers()[0]->hip.end - recordUser.getTrackedUsers()[0]->hip.begin) / 2;
+        torsoEnd = (recordUser.getTrackedUsers()[0]->hip.end + recordUser.getTrackedUsers()[0]->hip.begin) / 2;
         
 
 			
@@ -232,6 +240,9 @@ void testApp::draw(){
   
     leftUpperLeg.updateControl(leftUpperLegBegin, leftUpperLegEnd);
     rightUpperLeg.updateControl(rightUpperLegBegin, rightUpperLegEnd);
+
+    head.updateControl(headBegin, headEnd);
+
   
     leftForearm.draw();
     rightForearm.draw();
@@ -250,8 +261,8 @@ void testApp::draw(){
   leftUpperLeg.draw();
   rightUpperLeg.draw();
   
-  ofCircle(torsoEnd.x, torsoEnd.y, 5);
-  ofCircle(torsoBegin.x, torsoBegin.y, 5);
+  head.draw();
+
 
 
 
