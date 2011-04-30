@@ -23,12 +23,9 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 
 		void	setupRecording(string _filename = "");
-		void	setupPlayback(string _filename);
-		string	generateFileName();
+
 	
-		bool				isLive, isTracking, isRecording, isCloud, isCPBkgnd, isMasking;
 		
-		string				currentFileName;
 	
 		ofxOpenNIContext	recordContext, playContext;
 		ofxDepthGenerator	recordDepth, playDepth;
