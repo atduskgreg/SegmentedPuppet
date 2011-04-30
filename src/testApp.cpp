@@ -3,13 +3,14 @@
 //--------------------------------------------------------------
 void testApp::setup() {
 	
-	isLive		= true;
+/*	isLive		= true;
 	isTracking	= true;
 	isRecording = false;
 	isCloud		= false;
 	isCPBkgnd	= true;
 	isMasking   = true;
-	
+	*/
+  
 	setupRecording();
 
 	ofBackground(0, 0, 0);
@@ -43,6 +44,7 @@ void testApp::setup() {
 	
 }
 
+
 void testApp::setupRecording(string _filename) {
 	
 	if (!recordContext.isInitialized()) {
@@ -67,6 +69,8 @@ void testApp::setupRecording(string _filename) {
 		
 }
 
+/*
+
 void testApp::setupPlayback(string _filename) {
 	
 	playContext.clear();
@@ -80,17 +84,59 @@ void testApp::setupPlayback(string _filename) {
 	playContext.toggleMirror();
 	
 }
+ */
 
 //--------------------------------------------------------------
 void testApp::update(){
-	
-	if (isLive) {
-		recordContext.update();
-		if (isTracking) recordUser.update();
-	} else {
-		playContext.update();
-		if (isTracking) playUser.update();
-	}
+  recordContext.update();
+	recordUser.update();
+  
+  if (recordUser.getTrackedUsers().size() > 0) {
+    
+    
+    leftForearmBegin  = recordUser.getTrackedUsers()[0]->left_lower_arm.begin;
+    leftForearmEnd    = recordUser.getTrackedUsers()[0]->left_lower_arm.end;
+    
+    rightForearmBegin = recordUser.getTrackedUsers()[0]->right_lower_arm.begin;
+    rightForearmEnd   = recordUser.getTrackedUsers()[0]->right_lower_arm.end;
+    
+    rightUpperarmBegin = recordUser.getTrackedUsers()[0]->right_upper_arm.begin;
+    rightUpperarmEnd   = recordUser.getTrackedUsers()[0]->right_upper_arm.end;
+    
+    
+    leftUpperarmBegin = recordUser.getTrackedUsers()[0]->left_upper_arm.begin;
+    leftUpperarmEnd   = recordUser.getTrackedUsers()[0]->left_upper_arm.end;
+    
+    leftLowerLegBegin = recordUser.getTrackedUsers()[0]->left_lower_leg.begin;
+    leftLowerLegEnd = recordUser.getTrackedUsers()[0]->left_lower_leg.end;
+    
+    rightLowerLegBegin = recordUser.getTrackedUsers()[0]->right_lower_leg.begin;
+    rightLowerLegEnd = recordUser.getTrackedUsers()[0]->right_lower_leg.end;
+    
+    
+    leftUpperLegBegin = recordUser.getTrackedUsers()[0]->left_upper_leg.begin;
+    leftUpperLegEnd = recordUser.getTrackedUsers()[0]->left_upper_leg.end;
+    
+    rightUpperLegBegin = recordUser.getTrackedUsers()[0]->right_upper_leg.begin;
+    rightUpperLegEnd = recordUser.getTrackedUsers()[0]->right_upper_leg.end;
+    
+    
+    headBegin = recordUser.getTrackedUsers()[0]->neck.begin;
+    headEnd = recordUser.getTrackedUsers()[0]->neck.end;
+    
+    
+    ofxVec3f shoudlerLine = recordUser.getTrackedUsers()[0]->right_shoulder.begin + recordUser.getTrackedUsers()[0]->left_shoulder.begin;
+    torsoBegin = shoudlerLine / 2;
+    //torsoBegin = recordUser.getTrackedUsers()[0]->right_shoulder.begin;
+    
+    // to center of this line
+    //torsoBegin = (recordUser.getTrackedUsers()[0]->hip.end - recordUser.getTrackedUsers()[0]->hip.begin) / 2;
+    torsoEnd = (recordUser.getTrackedUsers()[0]->hip.end + recordUser.getTrackedUsers()[0]->hip.begin) / 2;
+    
+    
+    
+  }
+  
 }
 
 //--------------------------------------------------------------
@@ -101,75 +147,30 @@ void testApp::draw(){
 	glPushMatrix();
 	glScalef(0.75, 0.75, 0.75);
 	
-	if (isLive) {
+	//if (isLive) {
 		
-		recordDepth.draw(0,0,640,480);
-		recordImage.draw(640, 0, 640, 480);
-		if (isTracking) {
+		//recordDepth.draw(0,0,640,480);
+		//recordImage.draw(640, 0, 640, 480);
+		//if (isTracking) {
 			
-			recordUser.draw();
+			//recordUser.draw();
       
       //cout << "x: " << recordUser.getTrackedUser(1)->left_lower_arm.begin.x << endl;
       
-      if (recordUser.getTrackedUsers().size() > 0) {
-    
-      
-        leftForearmBegin  = recordUser.getTrackedUsers()[0]->left_lower_arm.begin;
-        leftForearmEnd    = recordUser.getTrackedUsers()[0]->left_lower_arm.end;
-        
-        rightForearmBegin = recordUser.getTrackedUsers()[0]->right_lower_arm.begin;
-        rightForearmEnd   = recordUser.getTrackedUsers()[0]->right_lower_arm.end;
-        
-        rightUpperarmBegin = recordUser.getTrackedUsers()[0]->right_upper_arm.begin;
-        rightUpperarmEnd   = recordUser.getTrackedUsers()[0]->right_upper_arm.end;
-
-        
-        leftUpperarmBegin = recordUser.getTrackedUsers()[0]->left_upper_arm.begin;
-        leftUpperarmEnd   = recordUser.getTrackedUsers()[0]->left_upper_arm.end;
-        
-        leftLowerLegBegin = recordUser.getTrackedUsers()[0]->left_lower_leg.begin;
-        leftLowerLegEnd = recordUser.getTrackedUsers()[0]->left_lower_leg.end;
-        
-        rightLowerLegBegin = recordUser.getTrackedUsers()[0]->right_lower_leg.begin;
-        rightLowerLegEnd = recordUser.getTrackedUsers()[0]->right_lower_leg.end;
-
-        
-        leftUpperLegBegin = recordUser.getTrackedUsers()[0]->left_upper_leg.begin;
-        leftUpperLegEnd = recordUser.getTrackedUsers()[0]->left_upper_leg.end;
-        
-        rightUpperLegBegin = recordUser.getTrackedUsers()[0]->right_upper_leg.begin;
-        rightUpperLegEnd = recordUser.getTrackedUsers()[0]->right_upper_leg.end;
-
-        
-        headBegin = recordUser.getTrackedUsers()[0]->neck.begin;
-        headEnd = recordUser.getTrackedUsers()[0]->neck.end;
-        
-
-        ofxVec3f shoudlerLine = recordUser.getTrackedUsers()[0]->right_shoulder.begin + recordUser.getTrackedUsers()[0]->left_shoulder.begin;
-        torsoBegin = shoudlerLine / 2;
-        //torsoBegin = recordUser.getTrackedUsers()[0]->right_shoulder.begin;
-        
-        // to center of this line
-        //torsoBegin = (recordUser.getTrackedUsers()[0]->hip.end - recordUser.getTrackedUsers()[0]->hip.begin) / 2;
-        torsoEnd = (recordUser.getTrackedUsers()[0]->hip.end + recordUser.getTrackedUsers()[0]->hip.begin) / 2;
-        
-
-			
-      }
-        
-			if(isMasking) {
+              
+			/*if(isMasking) {
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_DST_COLOR, GL_ZERO);
 				recordUser.drawUserMasks(640, 0);
 				glDisable(GL_BLEND);
-			}
-		}
+			}*/
+		//}
 		
-		if (isCloud) {
+		/*if (isCloud) {
 			recordUser.drawPointCloud(isCPBkgnd);
-		}
+		}*/
 		
-	} else {
+/*	} else {
 		
 		playDepth.draw(0,0,640,480);
 		playImage.draw(640, 0, 640, 480);
@@ -190,12 +191,12 @@ void testApp::draw(){
 			playUser.drawPointCloud(isCPBkgnd);
 		}
 		
-	}
+	}*/
 	
 	glPopMatrix();
 	
 	ofSetColor(255, 255, 0);
-	
+	/*
 	string msg1, msg2, msg3;	//drawBitmapString is limited to some numebr of characters -> is this a bug in 007 or always the case?
 	
 	msg1 += "Press 's' to start/stop recording\n";
@@ -217,14 +218,14 @@ void testApp::draw(){
 	ofDrawBitmapString(msg2, 20, 550);
 	ofDrawBitmapString(msg3, 20, 600);
 	ofDrawBitmapString(currentFileName, 20, 700);
-
+*/
   
   glPushMatrix();
     ofSetColor(500, 100, 100);
     ofTranslate(500, 200, -100);
 
   
-    ofScale(1,1,-1);
+    ofScale(2,2,-2);
 
   
     leftForearm.updateControl(leftForearmBegin, leftForearmEnd);
@@ -278,7 +279,7 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-	switch (key) {
+	/*switch (key) {
 		case 's':
 			if (isRecording) {
 				oniRecorder.stopRecord();
@@ -314,8 +315,9 @@ void testApp::keyPressed(int key){
 		default:
 			break;
 	}	
+   */
 }
-
+/*
 string testApp::generateFileName() {
 	
 	string _root = "kinectRecord";
@@ -332,6 +334,7 @@ string testApp::generateFileName() {
 	return _filename;
 	
 }
+ */
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
@@ -341,11 +344,12 @@ void testApp::keyReleased(int key){
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
 	
-	if (isLive && isCloud) {
+/*	if (isLive && isCloud) {
 		recordUser.setPointCloudRotation(x);
 	} else if (!isLive && isCloud) {
 		playUser.setPointCloudRotation(x);
 	}
+ */
 }
 
 //--------------------------------------------------------------
