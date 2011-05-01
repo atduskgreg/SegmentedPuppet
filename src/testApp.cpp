@@ -33,7 +33,7 @@ void testApp::setup() {
   leftUpperLeg = GABPuppetLimb(upperLeg);
   rightUpperLeg = GABPuppetLimb(upperLeg);
   
-  headModel.load("head2.obj");
+  headModel.load("head_oriented.obj");
   head = GABPuppetLimb(headModel);
 
     ofSetFrameRate(60);
