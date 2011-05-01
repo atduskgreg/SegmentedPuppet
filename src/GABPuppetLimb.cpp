@@ -41,7 +41,17 @@ void GABPuppetLimb::draw() {
   
     ofRotate(ofRadToDeg(angle), axis.x, axis.y, axis.z);
   
-
+  
+  /*  ofPoint modelMin;
+    ofPoint modelMax;
+  
+    model.getBounds(&modelMin, &modelMax);
+  
+    float modelLength = modelMax.y - modelMin.y;
+    float jointLength = endJoint.y - startJoint.y;
+  
+    ofScale(1, jointLength/modelLength, 1 );
+   */
     model.draw();
   ofPopMatrix();
 }

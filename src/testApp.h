@@ -7,6 +7,9 @@
 #include "ofxOBJModel.h"
 #include "GABPuppetLimb.h"
 
+#include "ofxSyphon.h"
+
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -25,7 +28,9 @@ class testApp : public ofBaseApp{
 		void	setupRecording(string _filename = "");
 
 	
-		
+    //for recording
+    ofxSyphonServer syphonServer;
+
 	
 		ofxOpenNIContext	recordContext, playContext;
 		ofxDepthGenerator	recordDepth, playDepth;

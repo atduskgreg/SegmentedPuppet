@@ -4,11 +4,13 @@
 void testApp::setup() {
 
   
+  
 	setupRecording();
 
-	ofBackground(0, 0, 0);
+	//ofBackground(0, 0, 0, 0);
   
-  
+  syphonServer.setName("Segmented Puppet");
+
   
   leftLowerArm.load("left_lower_arm2.obj");
   
@@ -27,14 +29,14 @@ void testApp::setup() {
   leftLowerLeg = GABPuppetLimb(lowerLeg);
   rightLowerLeg = GABPuppetLimb(lowerLeg);
   
-  upperLeg.load("upper_leg.obj");
+  upperLeg.load("upper_leg2.obj");
   leftUpperLeg = GABPuppetLimb(upperLeg);
   rightUpperLeg = GABPuppetLimb(upperLeg);
   
   headModel.load("head2.obj");
   head = GABPuppetLimb(headModel);
 
-	
+    ofSetFrameRate(60);
 }
 
 
@@ -116,6 +118,9 @@ void testApp::draw(){
 	
 	  
   glPushMatrix();
+  glClearColor(0.0, 0.0, 0.0, 0.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
   // LIGHTING ================
   glEnable(GL_LIGHTING);
   glEnable(GL_DEPTH_TEST);
@@ -125,10 +130,11 @@ void testApp::draw(){
   
     ofSetColor(150, 150, 150);
 
-    ofTranslate(500, 200, -100);
 
-  
-    ofScale(2,2,-2);
+    ofTranslate(-1000, -1000, -200);
+
+    ofScale(6,6,-1);
+
 
   
     leftForearm.updateControl(leftForearmBegin, leftForearmEnd);
@@ -177,6 +183,9 @@ void testApp::draw(){
 
 
   glPopMatrix();
+  
+  syphonServer.publishScreen();
+
 }
 
 //--------------------------------------------------------------
